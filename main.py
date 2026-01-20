@@ -16,7 +16,7 @@ def main():
     issues = detect_data_quality_issues(columns, summary)
 
     # CHANGE HERE: specify target column (or None)
-    target_analysis = analyze_target(df, target_column="Survived")
+    target_analysis = analyze_target(df, target_column=None)
 
     print("DATASET SUMMARY")
     print(summary)

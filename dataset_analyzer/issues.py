@@ -32,6 +32,24 @@ def detect_data_quality_issues(
             }
         })
 
+    # High duplicate rows
+    duplicate_rows = dataset_summary.get("duplicate_rows", 0)
+    num_rows = dataset_summary.get("num_rows", 0)
+
+    if num_rows > 0:
+        duplicate_pct = (duplicate_rows / num_rows) * 100
+
+        if duplicate_pct >= 20.0:
+            issues.append({
+                "issue_type": "high_duplicate_rows",
+                "column": None,
+                "evidence": {
+                    "duplicate_rows": duplicate_rows,
+                    "duplicate_percentage": round(duplicate_pct, 2),
+                    "threshold": 20.0
+                }
+            })
+
     # -----------------------------
     # Column-level issues
     # -----------------------------

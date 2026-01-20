@@ -94,19 +94,6 @@ def infer_column_properties(df: pd.DataFrame) -> dict:
             results[col] = info
             continue
 
-        # Only attempt parsing for object/string columns
-        if series.dtype == object:
-            try:
-                parsed = pd.to_datetime(series, errors="coerce", infer_datetime_format=True)
-                parsed_ratio = parsed.notna().sum() / non_missing_count
-
-                if parsed_ratio >= 0.8:
-                    info["inferred_type"] = "datetime"
-                    results[col] = info
-                    continue
-            except Exception:
-                pass
-
         # -----------------------------
         # Rule 5: Numerical
         # -----------------------------
