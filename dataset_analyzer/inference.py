@@ -112,6 +112,16 @@ def infer_column_properties(df: pd.DataFrame) -> dict:
         # -----------------------------
         if pd.api.types.is_numeric_dtype(series):
             info["inferred_type"] = "numerical"
+
+            # Discrete vs continuous (annotation only)
+            is_integer_like = pd.api.types.is_integer_dtype(series)
+            unique_values = info["unique_values"]
+
+            if is_integer_like and unique_values <= 20:
+                info["numerical_kind"] = "discrete"
+            else:
+                info["numerical_kind"] = "continuous"
+
             results[col] = info
             continue
 
