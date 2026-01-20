@@ -1,3 +1,4 @@
+import sys
 import pandas as pd
 
 from dataset_analyzer.summary import compute_dataset_summary
@@ -7,14 +8,15 @@ from dataset_analyzer.target import analyze_target
 from dataset_analyzer.recommendations import generate_recommendations
 
 def main():
-    df = pd.read_csv("examples/sample.csv")
+    dataset_path = sys.argv[1] if len(sys.argv) > 1 else "examples/sample.csv"
+    df = pd.read_csv(dataset_path)
 
     summary = compute_dataset_summary(df)
     columns = infer_column_properties(df)
     issues = detect_data_quality_issues(columns, summary)
 
     # CHANGE HERE: specify target column (or None)
-    target_analysis = analyze_target(df, target_column="outcome")
+    target_analysis = analyze_target(df, target_column="Survived")
 
     print("DATASET SUMMARY")
     print(summary)
